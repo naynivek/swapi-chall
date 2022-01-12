@@ -1,8 +1,7 @@
 import requests
 import json
-
-initial_url = 'https://swapi.dev/api/starships/'
-question_MGLT = 1000000
+from flask import Flask
+from flask import request
 
 def get_data(url):
     r = requests.get(url)
@@ -25,23 +24,51 @@ def converter(date):
     elif date[1] == 'day' or date[1] == 'days':
         return int(int(date[0]))*24
 
+app = Flask(__name__)
 
-result = get_data(initial_url)
-spaceships = result['results']
+@app.route('/')
+def ola():
+    return '<h3>Flask working</h3>'
 
-while result['next'] is not None:
-    result = get_data(result['next'])
-    spaceships2 = result['results']
-    for i in range(len(spaceships2)):
-        spaceships.append(spaceships2[i])
+@app.route('/api', methods = ['POST', 'GET'])
+def swapi():
+    initial_url = 'https://swapi.dev/api/starships/'
+    if request.method == 'POST':
+        question_MGLT = request.form['mglt']
+    else:
+        question_MGLT = request.args.get('mglt', default=1000000, type = int)
+    result = get_data(initial_url)
+    spaceships = result['results']
+    message = []
+
+    while result['next'] is not None:
+        result = get_data(result['next'])
+        spaceships2 = result['results']
+        for i in range(len(spaceships2)):
+            spaceships.append(spaceships2[i])
+
+    for i in range(len(spaceships)):  
+        if spaceships[i]['MGLT'] != 'unknown':
+            hours = converter(spaceships[i]['consumables'])
+            mglt_total = int(spaceships[i]['MGLT'])*hours
+            stops = question_MGLT/int(mglt_total)
+#            print(spaceships[i]['name']+': '+str(stops))
+            message.append(spaceships[i]['name']+': '+str(stops))
+    response = json.dumps(message, indent=2)
+#    response = json.dumps(response, indent=10)
+#    response = response.replace('\n','<br>')
+    print(response)
+    return response
+
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.run()
 
 
-for i in range(len(spaceships)):  
-    if spaceships[i]['MGLT'] != 'unknown':
-        hours = converter(spaceships[i]['consumables'])
-        mglt_total = int(spaceships[i]['MGLT'])*hours
-        stops = question_MGLT/int(mglt_total)
-        print(spaceships[i]['name']+': '+str(stops))
+
+
+
+
+
 
 
 
