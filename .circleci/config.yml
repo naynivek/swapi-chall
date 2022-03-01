@@ -12,13 +12,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-        key: cache1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run
-        name: Install Python deps in a venv
-        command: |
-          python3 -m venv venv
-          . venv/bin/activate
-          pip install -r requirements.txt
+          key: cache1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install Python deps in a venv
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
       - save_cache:
           key: cache1-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
