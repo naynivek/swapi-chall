@@ -2,6 +2,7 @@ import requests
 import json
 from flask import Flask
 from flask import request
+import math
 
 def get_data(url):
     r = requests.get(url)
@@ -28,7 +29,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def ola():
-    return '<h3>Flask working</h3>'
+    return '<h3>Flask working v3 with cli</h3>'
 
 @app.route('/api', methods = ['POST', 'GET'])
 def swapi():
@@ -52,6 +53,7 @@ def swapi():
             hours = converter(spaceships[i]['consumables'])
             mglt_total = int(spaceships[i]['MGLT'])*hours
             stops = question_MGLT/int(mglt_total)
+            stops = math.floor(stops)
 #            print(spaceships[i]['name']+': '+str(stops))
             message.append(spaceships[i]['name']+': '+str(stops))
     response = json.dumps(message, indent=2)
