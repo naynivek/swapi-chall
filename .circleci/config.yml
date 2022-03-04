@@ -7,6 +7,7 @@ orbs:
 jobs:
   example-job:
     docker:
+      # replace with your preferred image
       - image: cimg/base:stable
     steps:
       - aws-cli/setup:
@@ -14,8 +15,8 @@ jobs:
           aws-region: AWS_REGION 
           aws-secret-access-key: AWS_ACCESS_KEY
       - run:
-          name: New Deployment
           command: |
+            AWS_ACCESS_KEY_ID
             aws ecs update-service --service swapi-chall-plus --force-new-deployment
 
 workflows:
