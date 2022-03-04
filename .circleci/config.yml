@@ -1,17 +1,35 @@
 version: '2.1'
 orbs:
   aws-ecr: circleci/aws-ecr@7.3.0
+  aws-cli: circleci/aws-cli@2.1.0
+
+
+jobs:
+  example-job:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID 
+          aws-region: AWS_REGION 
+          aws-secret-access-key: AWS_ACCESS_KEY
+      - run:
+          name: New Deployment
+          command: |
+            aws ecs update-service --service swapi-chall-plus --force-new-deployment
+
 workflows:
-    example-workflow:
-      jobs:
-        - aws-ecr/build-and-push-image:
+  example-workflow:
+    jobs:
+      - aws-ecr/build-and-push-image:
             account-url: AWS_ECR_ACCOUNT
             aws-access-key-id: AWS_ACCESS_KEY_ID 
             aws-secret-access-key: AWS_ACCESS_KEY
             region: AWS_REGION
             repo: swapi-chall 
-
-
+      - example-job:
+          requires:
+            - aws-ecr/build-and-push-image
 
 
 
