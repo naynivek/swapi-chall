@@ -16,7 +16,6 @@ jobs:
           aws-secret-access-key: AWS_ACCESS_KEY
       - run:
           command: |
-            AWS_ACCESS_KEY_ID
             aws ecs update-service --service swapi-chall-plus --force-new-deployment
 
 workflows:
