@@ -13,7 +13,7 @@ jobs:
       - aws-cli/setup:
           aws-access-key-id: AWS_ACCESS_KEY_ID 
           aws-region: AWS_REGION 
-          aws-secret-access-key: AWS_ACCESS_KEY
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       - run:
           command: |
             aws ecs update-service --service swapi-chall-plus --force-new-deployment
