@@ -3,10 +3,11 @@ workflows:
   version: 2
   build:
     jobs:
+      - aws_auth
       - build
 
 jobs:
-  build:
+  aws_auth:
     docker:
       - image: amazon/aws-cli
     steps:
@@ -21,10 +22,27 @@ jobs:
             export AWS_SECRET_ACCESS_KEY=oa7Qz/VAbBQu+sopRwSiERrMZdXo5i7y94+qjDLw
             export AWS_DEFAULT_REGION=us-east-1
             export AWS_REPO_ACCOUNT=238748001493.dkr.ecr.us-east-1.amazonaws.com
-            aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_REPO_ACCOUNT
-            docker build -t swapi-chall
-            docker tag swapi-chall $AWS_REPO_ACCOUNT/swapi-chall:latest
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION >> key.json
+      - save_cache:
+          key: cache1-{{ .Branch }}-{{ checksum "key.json" }}
+          paths:
+            - "key.json"
+  build:
+    docker:
+      - image: ubuntu:latest
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+      - run:
+          name: Build ECS image
+          command: |
+            cat key.json | docker login --username AWS --password-stdin 238748001493.dkr.ecr.us-east-1.amazonaws.com
+            docker build . -t swapi-chall 238748001493.dkr.ecr.us-east-1.amazonaws.com/swapi-chall:latest
             docker push 238748001493.dkr.ecr.us-east-1.amazonaws.com/swapi-chall:latest
+      - restore_cache:
+          key: cache1-{{ .Branch }}-{{ checksum "key.json" }}
 
 
 
