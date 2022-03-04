@@ -5,7 +5,7 @@ orbs:
 
 
 jobs:
-  example-job:
+  deploy:
     docker:
       # replace with your preferred image
       - image: cimg/base:stable
@@ -19,7 +19,7 @@ jobs:
             aws ecs update-service --service swapi-chall-plus --force-new-deployment
 
 workflows:
-  example-workflow:
+  Workflow_Deploy_AWS:
     jobs:
       - aws-ecr/build-and-push-image:
             account-url: AWS_ECR_ACCOUNT
@@ -27,6 +27,6 @@ workflows:
             aws-secret-access-key: AWS_ACCESS_KEY
             region: AWS_REGION
             repo: swapi-chall 
-      - example-job:
+      - deploy:
           requires:
             - aws-ecr/build-and-push-image
