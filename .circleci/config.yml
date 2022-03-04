@@ -1,25 +1,30 @@
+version: 2
 workflows:
   version: 2
   build:
     jobs:
       - build
 
-version: 2
 jobs:
   build:
     docker:
-      - image: python:3.7
+      - image: amazon/aws-cli
     steps:
       - checkout
-      - restore_cache:
-          key: cache1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - setup_remote_docker:
+          docker_layer_caching: false
       - run:
-          name: Install Python deps in a venv
+          name: Build ECS image
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
-      - save_cache:
-          key: cache1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv"
+            export AWS_ACCESS_KEY_ID=AKIATPFT5MTK43CXSNPK
+            export AWS_SECRET_ACCESS_KEY=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
+            export AWS_DEFAULT_REGION=us-east-1
+            export AWS_REPO_ACCOUNT=238748001493.dkr.ecr.us-east-1.amazonaws.com
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_REPO_ACCOUNT
+            docker build -t swapi-chall
+            docker tag swapi-chall $AWS_REPO_ACCOUNT/swapi-chall:latest
+            docker push 238748001493.dkr.ecr.us-east-1.amazonaws.com/swapi-chall:latest
+
+
+
+
