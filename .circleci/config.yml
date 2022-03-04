@@ -2,9 +2,11 @@ version: 2
 workflows:
   version: 2
   build:
-    jobs:
-      - aws_auth
-      - build
+      jobs:
+        - aws_auth
+        - build:
+            requires:
+              - aws_auth
 
 jobs:
   aws_auth:
