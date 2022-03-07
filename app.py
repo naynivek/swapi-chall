@@ -28,7 +28,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def ola():
-    return '<h3>Flask working with circleci</h3>'
+    return '<h3>Flask working with circleci v2</h3>'
 
 @app.route('/api', methods = ['POST', 'GET'])
 def swapi():
