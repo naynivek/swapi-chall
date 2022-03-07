@@ -30,3 +30,4 @@ workflows:
       - deploy:
           requires:
             - aws-ecr/build-and-push-image
+
