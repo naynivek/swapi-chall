@@ -16,7 +16,7 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       - run:
           command: |
-            aws ecs update-service --service swapi-chall-plus --force-new-deployment
+            aws ecs update-service --service swapi-chall --force-new-deployment
 
 workflows:
   Workflow_Deploy_AWS:
