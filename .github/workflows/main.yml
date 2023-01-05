@@ -5,14 +5,14 @@ on:
     types: echo-test
 jobs:
   build-dev:
-    if: branch == "dev"
+    if: client_payload.branch == "dev"
     name: Deploy dev
     runs-on: ubuntu-latest
     steps:
       - name: echo test
         run: echo "test dev"
   build-stg:
-    if: branch == "stg"
+    if: client_payload.branch == "stg"
     name: Deploy stg
     runs-on: ubuntu-latest
     steps:
