@@ -5,7 +5,7 @@ on:
     types: echo-test
     
 env: 
-  environment: ${{ github.event.client_payload.branch }}
+  environment: "dev"
 
 jobs:
   build-dev:
