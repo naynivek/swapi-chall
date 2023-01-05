@@ -1,18 +1,20 @@
 name: Test Dispatch
+env: 
+  environment: ${{ github.event.client_payload.branch }}
 
 on:
   repository_dispatch:
     types: echo-test
 jobs:
   build-dev:
-    if: ${{ github.event.client_payload.branch }} == "dev"
+    if: $environment == "dev"
     name: Deploy dev
     runs-on: ubuntu-latest
     steps:
       - name: echo test
         run: echo "test dev"
   build-stg:
-    if: ${{ github.event.client_payload.branch }} == "stg"
+    if: $environment == "stg"
     name: Deploy stg
     runs-on: ubuntu-latest
     steps:
