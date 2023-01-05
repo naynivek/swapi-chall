@@ -19,3 +19,10 @@ jobs:
     steps:
       - name: echo test
         run: echo "test stg"
+  build-prd:
+    if: ${{ github.event.client_payload.environment == 'prd' }} 
+    name: Deploy stg
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo test
+        run: echo "test prd"
