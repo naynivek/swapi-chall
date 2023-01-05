@@ -1,0 +1,12 @@
+name: Test Dispatch
+
+on:
+  repository_dispatch:
+    types: echo-test
+jobs:
+  build:
+    name: Run Some Thing
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo test
+        run: echo "test"
