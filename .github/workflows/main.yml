@@ -1,10 +1,12 @@
 name: Test Dispatch
-env: 
-  environment: ${{ github.event.client_payload.branch }}
 
 on:
   repository_dispatch:
     types: echo-test
+    
+env: 
+  environment: ${{ github.event.client_payload.branch }}
+
 jobs:
   build-dev:
     if: $environment == "dev"
