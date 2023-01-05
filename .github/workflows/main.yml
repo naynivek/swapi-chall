@@ -4,16 +4,18 @@ on:
   repository_dispatch:
     types: echo-test
 
+environment: ${{ github.event.client_payload.environment }} 
+
 jobs:
   build-dev:
-    if: ${{ github.event.client_payload.environment == 'dev' }} 
+    if: ${{ $environment == 'dev' }} 
     name: Deploy dev
     runs-on: ubuntu-latest
     steps:
       - name: echo test
         run: echo "test dev"
   build-stg:
-    if: ${{ github.event.client_payload.environment == 'stg' }} 
+    if: ${{ $environment == 'stg' }} 
     name: Deploy stg
     runs-on: ubuntu-latest
     steps:
