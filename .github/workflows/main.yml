@@ -5,14 +5,14 @@ on:
     types: echo-test
 jobs:
   build-dev:
-    if: github.event.client_payload.branch == "dev"
+    if: ${{ github.event.client_payload.branch }} == "dev"
     name: Deploy dev
     runs-on: ubuntu-latest
     steps:
       - name: echo test
         run: echo "test dev"
   build-stg:
-    if: github.event.client_payload.branch == "stg"
+    if: ${{ github.event.client_payload.branch }} == "stg"
     name: Deploy stg
     runs-on: ubuntu-latest
     steps:
