@@ -9,14 +9,14 @@ env:
 
 jobs:
   build-dev:
-    if: $ {{ env.environment == 'dev' }} 
+    if: ${{ env.environment == 'dev' }} 
     name: Deploy dev
     runs-on: ubuntu-latest
     steps:
       - name: echo test
         run: echo "test dev"
   build-stg:
-    if: $ {{ env.environment == 'stg' }} 
+    if: ${{ env.environment == 'stg' }} 
     name: Deploy stg
     runs-on: ubuntu-latest
     steps:
