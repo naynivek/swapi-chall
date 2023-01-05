@@ -2,7 +2,7 @@ name: Test Dispatch
 
 on:
   repository_dispatch:
-    types: echo-test
+    types: echo-test-2
 jobs:
   build:
     name: Run Some Thing
