@@ -4,9 +4,17 @@ on:
   repository_dispatch:
     types: echo-test
 jobs:
-  build:
-    name: Run Some Thing
+  build-dev:
+    if: branch == "dev"
+    name: Deploy dev
     runs-on: ubuntu-latest
     steps:
       - name: echo test
-        run: echo "test"
+        run: echo "test dev"
+  build-stg:
+    if: branch == "stg"
+    name: Deploy stg
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo test
+        run: echo "test stg"
