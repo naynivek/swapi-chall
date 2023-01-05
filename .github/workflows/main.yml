@@ -4,7 +4,8 @@ on:
   repository_dispatch:
     types: echo-test
 
-environment: ${{ github.event.client_payload.environment }} 
+env:
+  environment: ${{ github.event.client_payload.environment }} 
 
 jobs:
   build-dev:
