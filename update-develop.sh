@@ -1,4 +1,5 @@
-git checkout develop
+git config --global user.email "runner@example.com"
+git config --global user.name "Runner"
 git checkout -b $1
 mkdir -p components
 #Download the packages
