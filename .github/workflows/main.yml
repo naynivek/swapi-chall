@@ -1,8 +1,8 @@
-name: Test Dispatch
+name: Main dispatch
 
 on:
   repository_dispatch:
-    types: echo-test
+    types: deploy-components
 
 jobs:
   build-dev:
@@ -10,8 +10,14 @@ jobs:
     name: Deploy dev
     runs-on: ubuntu-latest
     steps:
-      - name: echo test
-        run: echo "test dev"
+      - name: Checkout the develop branch
+        uses: actions/checkout@v3.3.0
+        with:
+          ref: 'develop'
+      - name: Download components
+        run: sh download-components.sh
+      - name: Running the update script
+        run: sh update-checkout.sh temp-actions arq-actions.txt
   build-stg:
     if: ${{ github.event.client_payload.environment == 'stg' }} 
     name: Deploy stg
