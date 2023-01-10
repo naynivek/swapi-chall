@@ -17,7 +17,7 @@ jobs:
       - name: Download components
         run: sh download-components.sh
       - name: Running the update script
-        run: sh update-checkout.sh temp-actions arq-actions.txt
+        run: sh update-develop.sh temp-actions arq-actions.txt
   build-stg:
     if: ${{ github.event.client_payload.environment == 'stg' }} 
     name: Deploy stg
